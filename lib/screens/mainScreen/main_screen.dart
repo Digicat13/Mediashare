@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mediaapp/widgets/button_section.dart';
+import 'package:mediaapp/widgets/image_section.dart';
+import 'package:mediaapp/widgets/likes_section.dart';
+import 'package:mediaapp/widgets/title_section.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.title}) : super(key: key);
@@ -27,8 +31,9 @@ class _MainScreenState extends State<MainScreen> {
 
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
+      body: Column(
+        children: [
+          Column(
 
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -41,6 +46,11 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ],
         ),
+          imageSection,
+          ButtonSection(35),
+          LikesSection(),
+          titleSection,
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData.dark(),
-      home: MainScreen(title: 'Mediagramm'),
+      home: MainScreen(title: 'Mediagrammm'),
     );
   }
 }
