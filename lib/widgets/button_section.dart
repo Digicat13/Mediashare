@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ButtonSection extends StatefulWidget {
-  final int _likesCount;
-  ButtonSection(this._likesCount);
+  final int likesCount;
+  const ButtonSection({this.likesCount}) ;
 
   @override
-  _ButtonSectionState createState() => _ButtonSectionState(_likesCount);
+  _ButtonSectionState createState() => _ButtonSectionState(likesCount);
 }
 
 class _ButtonSectionState extends State<ButtonSection> {

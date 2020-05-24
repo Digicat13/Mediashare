@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mediaapp/widgets/button_section.dart';
 import 'package:mediaapp/widgets/image_section.dart';
-import 'package:mediaapp/widgets/likes_section.dart';
-import 'package:mediaapp/widgets/title_section.dart';
+import 'package:mediaapp/widgets/comments_section.dart';
+import 'package:mediaapp/widgets/comment.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.title}) : super(key: key);
-
 
   final String title;
 
@@ -25,31 +24,34 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-
         title: Text(widget.title),
       ),
       body: Column(
         children: [
-          Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
           imageSection,
-          ButtonSection(35),
-          LikesSection(),
-          titleSection,
+          ButtonSection(likesCount: 35),
+          Comment(
+            userName: 'usernameee',
+            text: 'Cutie caty ',
+          ),
+//          CommentsSection(),
+          SizedBox(
+            height: 200.0,
+            child: CommentsSection(
+              comments: [
+                new Comment(
+                  userName: 'usernameee',
+                  text: 'Cutie caty ',
+                ),
+                new Comment(
+                  userName: 'usernameee2',
+                  text: 'So lovely',
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
