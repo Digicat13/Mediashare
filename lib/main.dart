@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mediaapp/screens/mainScreen/main_screen.dart';
+import 'package:mediaapp/widgets/post.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData.dark(),
-      home: MainScreen(title: 'Mediagrammm'),
+      home: MainScreen(title: 'Mediagrammm', posts: [new Post(), new Post()]),
     );
   }
 }

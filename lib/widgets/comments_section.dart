@@ -17,7 +17,6 @@ class CommentsSectionState extends State<CommentsSection> {
 
   @override // Add from this line ...
   Widget build(BuildContext context) {
-    print(comments);
     return Scaffold(
       body: _showComments(comments: comments),
     );
@@ -27,6 +26,8 @@ class CommentsSectionState extends State<CommentsSection> {
 Widget _showComments({List<Widget> comments}) {
   if (comments != null) {
     return new ListView.builder(
+      scrollDirection: Axis.vertical,
+
       itemCount: comments.length,
       itemBuilder: (BuildContext _context, int i) {
         return comments[i];

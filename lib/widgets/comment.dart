@@ -7,24 +7,28 @@ class Comment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          Container(
-            child: Text(userName,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                )),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              text,
+    if (text != null) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+        child: Row(
+          children: [
+            Container(
+              child: Text(userName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
-          ),
-        ],
-      ),
-    );
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                text,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return new Container();
+    }
   }
 }

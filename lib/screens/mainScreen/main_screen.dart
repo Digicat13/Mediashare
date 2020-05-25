@@ -1,64 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:mediaapp/widgets/button_section.dart';
-import 'package:mediaapp/widgets/image_section.dart';
-import 'package:mediaapp/widgets/comments_section.dart';
-import 'package:mediaapp/widgets/comment.dart';
+import 'package:mediaapp/widgets/post.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key key, this.title}) : super(key: key);
+  MainScreen({Key key, this.title, this.posts}) : super(key: key);
 
   final String title;
+  final List<Post> posts;
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _MainScreenState createState() => _MainScreenState(posts: posts);
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  _MainScreenState({this.posts});
+  final List<Post> posts;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(
-        children: [
-          imageSection,
-          ButtonSection(likesCount: 35),
-          Comment(
-            userName: 'usernameee',
-            text: 'Cutie caty ',
-          ),
-//          CommentsSection(),
-          SizedBox(
-            height: 200.0,
-            child: CommentsSection(
-              comments: [
-                new Comment(
-                  userName: 'usernameee',
-                  text: 'Cutie caty ',
-                ),
-                new Comment(
-                  userName: 'usernameee2',
-                  text: 'So lovely',
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Text('Hi') ,
+//        body: _showPosts(posts)
+//      body: ListView(
+//        children: [
+//          SizedBox(
+//            height: 600,
+//            child: Post(),
+//          ),
+//        ],
+//      ),
+        );
+  }
+
+  Widget _showPosts(posts) {
+    if (posts != null) {
+      return new ListView.builder(
+          itemCount: posts.length,
+          itemBuilder: (BuildContext _context, int i) {
+            return posts[i];
+          });
+    } else {
+      return new Container();
+    }
   }
 }
