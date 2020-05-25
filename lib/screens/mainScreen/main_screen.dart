@@ -18,7 +18,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black45,
         appBar: AppBar(
+          backgroundColor: Colors.white10,
           title: Stack(alignment: Alignment.center, children: [
             Align(
               alignment: Alignment.center,
@@ -35,7 +37,8 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ]),
         ),
-        body: _showPosts(posts));
+        body: _showPosts(posts),
+    );
   }
 
   Widget _showPosts(posts) {

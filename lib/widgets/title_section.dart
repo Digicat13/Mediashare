@@ -13,7 +13,7 @@ class TitleSection extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(left: 10),
-      color: Colors.black12,
+//      color: Colors.black54,
       height: 65,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
