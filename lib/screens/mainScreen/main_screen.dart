@@ -19,30 +19,43 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Stack(alignment: Alignment.center, children: [
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                widget.title,
+                style: TextStyle(),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                  icon: Icon(Icons.photo_camera), onPressed: onAddNewPost),
+            ),
+          ]),
         ),
-        body: Text('Hi') ,
-//        body: _showPosts(posts)
-//      body: ListView(
-//        children: [
-//          SizedBox(
-//            height: 600,
-//            child: Post(),
-//          ),
-//        ],
-//      ),
-        );
+        body: _showPosts(posts));
   }
 
   Widget _showPosts(posts) {
     if (posts != null) {
       return new ListView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
           itemCount: posts.length,
           itemBuilder: (BuildContext _context, int i) {
-            return posts[i];
+            return _buildRow(posts[i]);
           });
     } else {
       return new Container();
     }
   }
+
+  _buildRow(Post post) {
+    return new Container(
+        padding: const EdgeInsets.only(bottom: 10), child: post);
+  }
+
+  onAddNewPost() {}
 }
