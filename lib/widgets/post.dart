@@ -6,57 +6,48 @@ import 'package:mediaapp/widgets/comment.dart';
 import 'package:mediaapp/widgets/title_section.dart';
 
 class Post extends StatefulWidget {
-  Post(
-      {Key key,
-      this.username,
-      this.description,
-      this.image,
-      this.likesCount,
-      this.comments})
-      : super(key: key);
+  Post({Key key}) : super(key: key);
 
-  final String username;
-  final String image;
-  final String description;
-  final int likesCount;
-  List<Comment> comments;
+  String username;
+  String image;
+  String description;
+  int likesCount;
+  List<dynamic> comments;
+  String jsonString;
+
+  Post.fromJson(Map<String, dynamic> json)
+      : username = json['username'],
+        description = json['description'],
+        image = json['image'],
+        likesCount = json['likesCount'],
+        comments = json['comments'];
 
   @override
-  _PostState createState() => _PostState(
-      image: image,
-      username: username,
-      description: description,
-      likesCount: likesCount,
-      comments: comments
-  );
+  _PostState createState() => _PostState();
+
+  Map<String, dynamic> toJson() => {
+    'username': username,
+    'image': image,
+    'description': description,
+    'likesCount': likesCount,
+    'comments': comments
+  };
 }
 
 class _PostState extends State<Post> {
-  _PostState({this.username, this.description, this.image, this.likesCount, this.comments});
-
-  final String username;
-  final String image;
-  final String description;
-  final int likesCount;
-  final List<Comment> comments;
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          TitleSection(userName: username),
-          ImageSection(image: image),
-          ButtonSection(likesCount: likesCount),
-          if (description != null)
-            Comment(userName: username, text: description),
-          Container(
-            child: CommentsSection(
-              comments: comments,
-            ),
-          ),
-        ],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    return Column(
+      children: <Widget>[
+        TitleSection(userName: widget.username),
+        ImageSection(image: widget.image),
+        ButtonSection(likesCount: widget.likesCount),
+        if (widget.description != null)
+          Comment(username: widget.username, text: widget.description),
+        CommentsSection(
+          comments: widget.comments,
+        ),
+      ], // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

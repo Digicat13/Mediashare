@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:mediaapp/screens/mainScreen/main_screen.dart';
 import 'package:mediaapp/widgets/comment.dart';
@@ -11,41 +13,42 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    List postsMap = jsonDecode(
+        """[
+   {
+      "image":"assets/images/photo_2020-05-06_20-24-46.jpg",
+      "username":"carl_001",
+      "description":"The best one",
+      "comments":[
+         {
+            "username":"username2",
+            "text":"Cutie"
+         },
+         {
+            "username":"JohnDoe",
+            "text":"Best one"
+         }
+      ],
+      "likesCount":10
+   },
+   {
+      "image":"assets/images/pancake_cat.jpg",
+      "username":"lolita__",
+      "comments":[
+         {
+            "username":"jake_0112",
+            "text":"Bacon pancakes"
+         }
+      ],
+      "likesCount":10
+   }
+]""");
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          brightness:     Brightness.dark,
-//          backgroundColor: Colors.black
+          brightness: Brightness.dark,
         ),
-        home: MainScreen(
-            title: "Media", posts: [
-          Post(
-              image: 'lib/assets/images/photo_2020-05-06_20-24-46.jpg',
-              username: 'carl_001',
-              comments: [
-                new Comment(
-                  userName: 'username2',
-                  text: 'Cutie',
-                ),
-                new Comment(
-                  userName: 'JohnDoe',
-                  text: 'Best one',
-                ),
-              ],
-          likesCount: 105,
-            description: 'The best one',
-          ),
-         Post(
-              image: 'lib/assets/images/pancake_cat.jpg',
-              username: 'lolita__',
-              comments: [
-                new Comment(
-                  userName: 'jake_0112',
-                  text: 'Bacon pancakes',
-                ),
-              ],
-          likesCount: 96,
-          )
-        ]));
+        home: MainScreen(title: "Media", posts: postsMap
+            ));
   }
 }

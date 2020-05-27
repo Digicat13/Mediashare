@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
 class TitleSection extends StatelessWidget {
-  TitleSection({Key key, this.userName, this.image}) : super(key: key);
+  TitleSection({Key key, this.userName, this.image = 'assets/images/photo_2020-05-06_20-24-46.jpg'}) : super(key: key);
   final userName;
   String image;
 
   @override
   Widget build(BuildContext context) {
-    if(image==null) {
-      image = 'lib/assets/images/photo_2020-05-06_20-24-46.jpg';
-    }
 
     return Container(
       padding: const EdgeInsets.only(left: 10),

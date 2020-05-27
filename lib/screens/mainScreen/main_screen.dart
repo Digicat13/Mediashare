@@ -1,58 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:mediaapp/widgets/post.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key key, this.title, this.posts}) : super(key: key);
 
   final String title;
-  final List<Post> posts;
+  final List<dynamic> posts;
 
   @override
-  _MainScreenState createState() => _MainScreenState(posts: posts);
+  _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  _MainScreenState({this.posts});
-  final List<Post> posts;
 
   @override
   Widget build(BuildContext context) {
+    if (widget.posts == null || widget.posts.length == 0) {
+      return new SpinKitFadingFour(
+        color: Colors.white,
+        size: 50.0,
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.black45,
-        appBar: AppBar(
-          backgroundColor: Colors.white10,
-          title: Stack(alignment: Alignment.center, children: [
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                widget.title,
-                style: TextStyle(),
-                textAlign: TextAlign.center,
-              ),
+      appBar: AppBar(
+        backgroundColor: Colors.white10,
+        title: Stack(alignment: Alignment.center, children: [
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              widget.title,
+              style: TextStyle(),
+              textAlign: TextAlign.center,
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: IconButton(
-                  icon: Icon(Icons.photo_camera), onPressed: onAddNewPost),
-            ),
-          ]),
-        ),
-        body: _showPosts(posts),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: IconButton(
+                icon: Icon(Icons.photo_camera), onPressed: onAddNewPost),
+          ),
+        ]),
+      ),
+      body: _showPosts(widget.posts),
     );
   }
 
   Widget _showPosts(posts) {
-    if (posts != null) {
-      return new ListView.builder(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: true,
-          itemCount: posts.length,
-          itemBuilder: (BuildContext _context, int i) {
-            return _buildRow(posts[i]);
-          });
-    } else {
-      return new Container();
-    }
+    return new ListView.builder(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        itemCount: posts.length,
+        itemBuilder: (BuildContext _context, int i) {
+          return _buildRow(Post.fromJson(posts[i]));
+        });
   }
 
   _buildRow(Post post) {
