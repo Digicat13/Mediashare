@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mediaapp/screens/mainScreen/main_screen.dart';
-import 'package:mediaapp/widgets/comment.dart';
-import 'package:mediaapp/widgets/post.dart';
+import 'package:mediaapp/widgets/comment_section.dart';
+import 'package:mediaapp/widgets/post_section.dart';
 
 void main() {
   runApp(MyApp());

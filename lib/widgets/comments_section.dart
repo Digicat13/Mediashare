@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mediaapp/widgets/comment.dart';
+import 'package:mediaapp/models/comment.dart';
+import 'package:mediaapp/widgets/comment_section.dart';
 
 class CommentsSection extends StatelessWidget {
   CommentsSection({this.comments});
@@ -17,7 +18,7 @@ class CommentsSection extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemCount: comments.length,
       itemBuilder: (BuildContext _context, int i) {
-        return Comment.fromJson(comments[i]);
+        return CommentSection(comment: Comment.fromJson(comments[i]));
       },
     );
   }

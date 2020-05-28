@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mediaapp/widgets/post.dart';
+import 'package:mediaapp/models/post.dart';
+import 'package:mediaapp/widgets/post_section.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MainScreen extends StatefulWidget {
@@ -54,11 +55,11 @@ class _MainScreenState extends State<MainScreen> {
         shrinkWrap: true,
         itemCount: posts.length,
         itemBuilder: (BuildContext _context, int i) {
-          return _buildRow(Post.fromJson(posts[i]));
+          return _buildRow(PostSection(post: Post.fromJson(posts[i])));
         });
   }
 
-  _buildRow(Post post) {
+  _buildRow(PostSection post) {
     return new Container(
         padding: const EdgeInsets.only(bottom: 10), child: post);
   }
