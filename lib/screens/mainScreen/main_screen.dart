@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mediaapp/models/post.dart';
 import 'package:mediaapp/widgets/post_section.dart';
@@ -63,20 +64,21 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: Colors.black45,
       appBar: AppBar(
         backgroundColor: Colors.white10,
-        title: Stack(alignment: Alignment.center, children: [
-          Align(
-            alignment: Alignment.center,
+        title: Row(children: [
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerLeft,
+            child: IconButton(
+                icon: Icon(Icons.photo_camera), onPressed: onAddNewPost),
+            ),),
+          Expanded(
             child: Text(
               widget.title,
               style: TextStyle(),
               textAlign: TextAlign.center,
             ),
           ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: IconButton(
-                icon: Icon(Icons.photo_camera), onPressed: onAddNewPost),
-          ),
+          Expanded(child: Container()),
         ]),
       ),
       //body: _showPosts(widget.posts),
