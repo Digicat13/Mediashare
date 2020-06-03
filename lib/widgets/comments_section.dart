@@ -11,7 +11,7 @@ class CommentsSection extends StatelessWidget {
     if (comments == null) {
       return Container();
     }
-    return new ListView.builder(
+    return ListView.builder(
       padding: const EdgeInsets.all(0.0),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,

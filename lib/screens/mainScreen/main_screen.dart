@@ -87,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _showPosts(posts) {
-    return new ListView.builder(
+    return ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
@@ -98,7 +98,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   _buildRow(PostSection post) {
-    return new Container(
+    return Container(
         padding: const EdgeInsets.only(bottom: 10), child: post);
   }
 

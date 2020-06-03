@@ -18,11 +18,11 @@ class TitleSection extends StatelessWidget {
           Container(
             width: 40.0,
             height: 40.0,
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              image: new DecorationImage(
+              image: DecorationImage(
                 fit: BoxFit.fill,
-                image: new Image.asset(
+                image:  Image.asset(
                   image,
                   fit: BoxFit.cover,
                 ).image,
