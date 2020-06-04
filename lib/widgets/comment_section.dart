@@ -7,7 +7,7 @@ class CommentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (comment.text == null) { return new Container(); }
+    if (comment.text == null) { return  Container(); }
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
         child: Row(

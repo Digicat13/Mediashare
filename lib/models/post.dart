@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class Post {
-  String username;
-  String image;
-  String description;
-  int likesCount;
-  List<dynamic> comments;
+  final String username;
+  final String image;
+  final String description;
+  final int likesCount;
+  final List<dynamic> comments;
 
   Post({@required this.username, @required this.image, @required this.likesCount, this.description, this.comments});
 

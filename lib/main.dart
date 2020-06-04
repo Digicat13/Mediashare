@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    List postsMap = jsonDecode(
+    List<dynamic> postsMap = jsonDecode(
         """[
    {
       "image":"assets/images/photo_2020-05-06_20-24-46.jpg",

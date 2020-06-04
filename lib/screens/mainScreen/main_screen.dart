@@ -97,15 +97,15 @@ class _MainScreenState extends State<MainScreen> {
         });
   }
 
-  _buildRow(PostSection post) {
+  Widget _buildRow(PostSection post) {
     return Container(
         padding: const EdgeInsets.only(bottom: 10), child: post);
   }
 
   onAddNewPost() {}
 
-   _checkConnection() async {
-    var connectivityResult = await (new Connectivity().checkConnectivity());
+   Future<dynamic> _checkConnection() async {
+    ConnectivityResult connectivityResult = await (new Connectivity().checkConnectivity());
     bool connectedToInternet = !(connectivityResult == ConnectivityResult.none);
     if (!connectedToInternet) {
       String message = 'No connection to the internet';
@@ -127,7 +127,7 @@ class _MainScreenState extends State<MainScreen> {
             ));
   }
 
-   _fetchPosts() {
+   Widget _fetchPosts() {
      _checkConnection();
 
     bool available = _checkPostAvailability();

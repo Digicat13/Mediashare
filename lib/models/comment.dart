@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class Comment {
-  final username;
-  final text;
+  final String username;
+  final String text;
 
   const Comment({@required this.username, @required this.text});
 
