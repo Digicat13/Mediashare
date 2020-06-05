@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:mediaapp/screens/mainScreen/main_screen.dart';
 
 void main() {
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           brightness: Brightness.dark,
         ),
-        home: MainScreen(title: "Media", posts: postsMap
-            ));
+        home: MainScreen(title: "Media",
+            ),
+      navigatorKey: navigatorKey,);
   }
 }

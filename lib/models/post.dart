@@ -10,10 +10,10 @@ class Post {
   Post({@required this.username, @required this.image, @required this.likesCount, this.description, this.comments});
 
   Post.fromJson(Map<String, dynamic> json)
-      : username = json['username'],
+      : username = json['userName'],
         description = json['description'],
-        image = json['image'],
-        likesCount = json['likesCount'],
+        image = json['imageUrl'],
+        likesCount = json['likes'],
         comments = json['comments'];
 
   Map<String, dynamic> toJson() => {

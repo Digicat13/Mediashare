@@ -1,63 +1,94 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mediaapp/models/post.dart';
+import 'package:mediaapp/services/connectivity_service.dart';
+import 'package:mediaapp/services/post_service.dart';
 import 'package:mediaapp/widgets/post_section.dart';
-import 'package:connectivity/connectivity.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key key, this.title, this.posts}) : super(key: key);
-
+  MainScreen({Key key, this.title}) : super(key: key);
   final String title;
-  final List<dynamic> posts;
 
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  bool _tryConnection = false;
+  List<dynamic> posts = [];
+  bool loading = false;
 
   @override
   void initState() {
     super.initState();
-    _checkConnection();
+    new ConnectivityService().checkInternetConnection(context);
+    _fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
-//    if (widget.posts == null || widget.posts?.length == 0) {
-//
-////      return new SpinKitFadingFour(
-////        color: Colors.white,
-////        size: 50.0,
-////      );
-//    }
-
-    bool postAvailable = !(widget.posts == null || widget.posts?.length == 0);
+    bool postAvailable = !(posts == null || posts?.length == 0);
     Widget body;
 
-    if (!postAvailable) {
-      body = Container(
-        child: Builder(
-          builder: (context) => Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Nothing to display"),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: RaisedButton(
-                    child: const Text('Try again'),
-                    onPressed: () => _fetchPosts(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    } else {
-      body = _showPosts(widget.posts);
+
+//    if (!postAvailable) {
+//      body = Container(
+//        child: Builder(
+//          builder: (context) => Center(
+//            child: Column(
+//              mainAxisAlignment: MainAxisAlignment.center,
+//              children: [
+//                Text("Nothing to display"),
+//                Container(
+//                  padding: const EdgeInsets.symmetric(vertical: 10),
+//                  child: RaisedButton(
+//                    child: const Text('Try again'),
+////                    onPressed: () => _showPosts(widget.posts),
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+//        ),
+//      );
+//    } else {
+////      body = FutureBuilder(
+////          future: _fetchData(),
+////          builder: (context, projectSnap) {
+////            if (projectSnap.connectionState == ConnectionState.none &&
+////                projectSnap.hasData == null) {
+////              //print('project snapshot data is: ${projectSnap.data}');
+////              return Container();
+////            }
+////            return _showPosts(projectSnap.data);
+////          });
+////    }
+//      body = _showPosts(posts);
+//    }
+
+    if(loading) {
+      body = _loadingSpin();
+    }
+
+    if(posts.length != 0 ) {
+//      body = FutureBuilder(
+//          future: _fetchData(),
+//          builder: (context, projectSnap) {
+//            if (projectSnap.connectionState == ConnectionState.none &&
+//                projectSnap.hasData == null) {
+//              //print('project snapshot data is: ${projectSnap.data}');
+//              return Container();
+//            }
+//            return _showPosts(projectSnap.data);
+//          });
+//    }
+      body = _showPosts(posts);
+    }
+    else {
+      body = Container();
     }
 
     return Scaffold(
@@ -68,9 +99,10 @@ class _MainScreenState extends State<MainScreen> {
           Expanded(
             child: Align(
               alignment: Alignment.centerLeft,
-            child: IconButton(
-                icon: Icon(Icons.photo_camera), onPressed: onAddNewPost),
-            ),),
+              child: IconButton(
+                  icon: Icon(Icons.photo_camera), onPressed: onAddNewPost),
+            ),
+          ),
           Expanded(
             child: Text(
               widget.title,
@@ -98,46 +130,64 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildRow(PostSection post) {
-    return Container(
-        padding: const EdgeInsets.only(bottom: 10), child: post);
+    return Container(padding: const EdgeInsets.only(bottom: 10), child: post);
   }
 
   onAddNewPost() {}
 
-   Future<dynamic> _checkConnection() async {
-    ConnectivityResult connectivityResult = await (new Connectivity().checkConnectivity());
-    bool connectedToInternet = !(connectivityResult == ConnectivityResult.none);
-    if (!connectedToInternet) {
-      String message = 'No connection to the internet';
-      _showAlert(context, message);
-    }
-    if (_tryConnection != !connectedToInternet) {
-      setState(() => _tryConnection = !connectedToInternet);
+  Future _fetchData() async {
+    String url = "https://5b27755162e42b0014915662.mockapi.io/api/v1/posts";
+    PostService postService = new PostService();
+    try {
+      loading = true;
+      var response = await Dio().get(url);
+//      List<dynamic> data = response.data;
+      List<dynamic> data = jsonDecode("""[
+   {
+      "imageUrl":"assets/images/photo_2020-05-06_20-24-46.jpg",
+      "userName":"carl_001",
+      "description":"The best one",
+      "comments":[
+         {
+            "userName":"username2",
+            "text":"Cutie"
+         },
+         {
+            "userName":"JohnDoe",
+            "text":"Best one"
+         }
+      ],
+      "likes":10
+   },
+   {
+      "imageUrl":"assets/images/pancake_cat.jpg",
+      "userName":"lolita__",
+      "comments":[
+         {
+            "userName":"jake_0112",
+            "text":"Bacon pancakes"
+         }
+      ],
+      "likes":10
+   }
+]""");
+      setState(() {
+        posts = data;
+        print(posts);
+        loading = false;
+      });
+    } catch (e) {
+      setState(() {
+        loading = false;
+      });
+      print(e);
     }
   }
 
-  void _showAlert(BuildContext context, String message) {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0))
-          ),
-              content: Text(message),
-            ));
-  }
-
-   Widget _fetchPosts() {
-     _checkConnection();
-
-    bool available = _checkPostAvailability();
-    if (available) {
-       return _showPosts(widget.posts);
-    }
-    _showAlert(context, "Couldn't refresh feed");
-  }
-
-  bool _checkPostAvailability() {
-    return !(widget.posts == null || widget.posts?.length == 0);
+  _loadingSpin () {
+    return new SpinKitFadingFour(
+      color: Colors.white,
+      size: 50.0,
+    );
   }
 }
