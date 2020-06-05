@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:mediaapp/components/outlined_button.dart';
 import 'package:mediaapp/models/post.dart';
 import 'package:mediaapp/services/connectivity_service.dart';
 import 'package:mediaapp/services/post_service.dart';
@@ -30,65 +31,37 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool postAvailable = !(posts == null || posts?.length == 0);
-    Widget body;
+    Widget body = Container(
+      child: Builder(
+        builder: (context) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Nothing to display",
+                style: TextStyle(
+                  fontSize: 25,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 50),
+                child: OutlinedButton(
+                  text: 'Try again',
+                  onPressed: _fetchData,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
 
-
-//    if (!postAvailable) {
-//      body = Container(
-//        child: Builder(
-//          builder: (context) => Center(
-//            child: Column(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              children: [
-//                Text("Nothing to display"),
-//                Container(
-//                  padding: const EdgeInsets.symmetric(vertical: 10),
-//                  child: RaisedButton(
-//                    child: const Text('Try again'),
-////                    onPressed: () => _showPosts(widget.posts),
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
-//        ),
-//      );
-//    } else {
-////      body = FutureBuilder(
-////          future: _fetchData(),
-////          builder: (context, projectSnap) {
-////            if (projectSnap.connectionState == ConnectionState.none &&
-////                projectSnap.hasData == null) {
-////              //print('project snapshot data is: ${projectSnap.data}');
-////              return Container();
-////            }
-////            return _showPosts(projectSnap.data);
-////          });
-////    }
-//      body = _showPosts(posts);
-//    }
-
-    if(loading) {
-      body = _loadingSpin();
-    }
-
-    if(posts.length != 0 ) {
-//      body = FutureBuilder(
-//          future: _fetchData(),
-//          builder: (context, projectSnap) {
-//            if (projectSnap.connectionState == ConnectionState.none &&
-//                projectSnap.hasData == null) {
-//              //print('project snapshot data is: ${projectSnap.data}');
-//              return Container();
-//            }
-//            return _showPosts(projectSnap.data);
-//          });
-//    }
+    if (posts.length != 0) {
       body = _showPosts(posts);
     }
-    else {
-      body = Container();
+
+    if (loading) {
+      body = _loadingSpin();
     }
 
     return Scaffold(
@@ -113,7 +86,6 @@ class _MainScreenState extends State<MainScreen> {
           Expanded(child: Container()),
         ]),
       ),
-      //body: _showPosts(widget.posts),
       body: body,
     );
   }
@@ -137,7 +109,6 @@ class _MainScreenState extends State<MainScreen> {
 
   Future _fetchData() async {
     String url = "https://5b27755162e42b0014915662.mockapi.io/api/v1/posts";
-    PostService postService = new PostService();
     try {
       loading = true;
       var response = await Dio().get(url);
@@ -173,7 +144,6 @@ class _MainScreenState extends State<MainScreen> {
 ]""");
       setState(() {
         posts = data;
-        print(posts);
         loading = false;
       });
     } catch (e) {
@@ -184,8 +154,8 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  _loadingSpin () {
-    return new SpinKitFadingFour(
+  _loadingSpin() {
+    return SpinKitFadingFour(
       color: Colors.white,
       size: 50.0,
     );

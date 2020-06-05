@@ -56,10 +56,10 @@ class _MainScreenState extends State<NoInternetScreen> {
   }
 
   checkConnection() async {
-    ConnectivityService connectivityService =  new ConnectivityService();
-      bool isInternet = await connectivityService.checkInternetConnection(context);
-      if(isInternet) {
-        Navigator.pop(context);
-      }
+    bool isInternet =
+        await ConnectivityService().checkInternetConnection(context);
+    if (isInternet) {
+      Navigator.pop(context);
+    }
   }
 }
