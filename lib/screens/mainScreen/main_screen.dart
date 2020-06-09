@@ -37,21 +37,21 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white10,
         title: Row(children: [
-          Expanded(
+          Flexible(
+            flex: 3,
             child: Align(
               alignment: Alignment.centerLeft,
               child: IconButton(
                   icon: Icon(Icons.photo_camera), onPressed: onAddNewPost),
             ),
           ),
-          Expanded(
+          Flexible(
+          flex: 4,
             child: Text(
               widget.title,
               style: TextStyle(),
-              textAlign: TextAlign.center,
             ),
           ),
-          Expanded(child: Container()),
         ]),
       ),
       body: body,
@@ -116,8 +116,7 @@ class _MainScreenState extends State<MainScreen> {
         posts = List<Post>.from(data.map((post) => Post.fromJson(post)));
       });
     } catch (e) {
-      setState(() {
-      });
+      setState(() {});
       print(e);
     }
   }
