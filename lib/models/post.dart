@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mediaapp/models/comment.dart';
 
 class Post {
   final String username;
   final String image;
   final String description;
   final int likesCount;
-  final List<dynamic> comments;
+  final List<Comment> comments;
 
   Post({@required this.username, @required this.image, @required this.likesCount, this.description, this.comments});
 
@@ -14,7 +15,7 @@ class Post {
         description = json['description'],
         image = json['imageUrl'],
         likesCount = json['likes'],
-        comments = json['comments'];
+        comments = List<Comment>.from(json['comments'].map((comment) => Comment.fromJson(comment)));
 
   Map<String, dynamic> toJson() => {
     'username': username,

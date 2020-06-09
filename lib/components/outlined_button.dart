@@ -18,7 +18,7 @@ class OutlinedButton extends StatelessWidget {
     return FlatButton(
       onPressed: onPressed,
       shape: RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(15.0),
         side: BorderSide(color: color, width: 2.0),
       ),
       child: Text(text,

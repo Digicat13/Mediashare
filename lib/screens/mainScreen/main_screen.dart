@@ -19,50 +19,18 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<dynamic> posts = [];
-  bool loading = false;
+  List<Post> posts;
 
   @override
   void initState() {
     super.initState();
-    new ConnectivityService().checkInternetConnection(context);
+    ConnectivityService().checkInternetConnection(context);
     _fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget body = Container(
-      child: Builder(
-        builder: (context) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Nothing to display",
-                style: TextStyle(
-                  fontSize: 25,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 50),
-                child: OutlinedButton(
-                  text: 'Try again',
-                  onPressed: _fetchData,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-
-    if (posts.length != 0) {
-      body = _showPosts(posts);
-    }
-
-    if (loading) {
-      body = _loadingSpin();
-    }
+    Widget body = posts != null ? _showPosts(posts) : _loadingSpin();
 
     return Scaffold(
       backgroundColor: Colors.black45,
@@ -91,13 +59,16 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _showPosts(posts) {
+    if (posts.length == 0) {
+      return _nothingToDisplay();
+    }
     return ListView.builder(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         itemCount: posts.length,
         itemBuilder: (BuildContext _context, int i) {
-          return _buildRow(PostSection(post: Post.fromJson(posts[i])));
+          return _buildRow(PostSection(post: posts[i]));
         });
   }
 
@@ -110,7 +81,6 @@ class _MainScreenState extends State<MainScreen> {
   Future _fetchData() async {
     String url = "https://5b27755162e42b0014915662.mockapi.io/api/v1/posts";
     try {
-      loading = true;
       var response = await Dio().get(url);
 //      List<dynamic> data = response.data;
       List<dynamic> data = jsonDecode("""[
@@ -143,21 +113,46 @@ class _MainScreenState extends State<MainScreen> {
    }
 ]""");
       setState(() {
-        posts = data;
-        loading = false;
+        posts = List<Post>.from(data.map((post) => Post.fromJson(post)));
       });
     } catch (e) {
       setState(() {
-        loading = false;
       });
       print(e);
     }
   }
 
-  _loadingSpin() {
+  Widget _loadingSpin() {
     return SpinKitFadingFour(
       color: Colors.white,
       size: 50.0,
+    );
+  }
+
+  Widget _nothingToDisplay() {
+    return Container(
+      child: Builder(
+        builder: (context) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Nothing to display",
+                style: TextStyle(
+                  fontSize: 25,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 50),
+                child: OutlinedButton(
+                  text: 'Try again',
+                  onPressed: _fetchData,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

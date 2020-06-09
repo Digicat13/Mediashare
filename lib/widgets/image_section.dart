@@ -11,7 +11,7 @@ class ImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    image = image.replaceAll(new RegExp(r'data:image.*,'), '');
+    image = image.replaceAll(RegExp(r'data:image.*,'), '');
     return Image.asset(
       image,
       fit: BoxFit.cover,

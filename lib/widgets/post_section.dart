@@ -24,7 +24,7 @@ class _PostSectionState extends State<PostSection> {
         ImageSection(image: widget.post.image),
         ButtonSection(likesCount: widget.post.likesCount),
         if (widget.post.description != null)
-          CommentSection(comment: new Comment(username: widget.post.username, text: widget.post.description)),
+          CommentSection(comment: Comment(username: widget.post.username, text: widget.post.description)),
         if(widget.post.comments != null)
         CommentsSection(
           comments: widget.post.comments,

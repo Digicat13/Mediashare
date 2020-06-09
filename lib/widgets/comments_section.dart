@@ -4,7 +4,7 @@ import 'package:mediaapp/widgets/comment_section.dart';
 
 class CommentsSection extends StatelessWidget {
   CommentsSection({this.comments});
-  final List<dynamic> comments;
+  final List<Comment> comments;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class CommentsSection extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemCount: comments.length,
       itemBuilder: (BuildContext _context, int i) {
-        return CommentSection(comment: Comment.fromJson(comments[i]));
+        return CommentSection(comment: comments[i]);
       },
     );
   }
