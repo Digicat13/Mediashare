@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-_defaultOnPressed() => {};
-
 class OutlinedButton extends StatelessWidget {
   OutlinedButton({
     Key key,
     this.color = Colors.cyan,
     @required this.text,
-    this.onPressed = _defaultOnPressed,
+    @required this.onPressed,
   }) : super(key: key);
   final Color color;
   final String text;
