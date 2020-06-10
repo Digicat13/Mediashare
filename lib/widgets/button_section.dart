@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 
 class ButtonSection extends StatefulWidget {
-  final int likesCount;
-  const ButtonSection({this.likesCount}) ;
+  int likesCount;
+  bool isFavorited = false;
+  bool isBookmarked = false;
+
+  ButtonSection({this.likesCount, this.isFavorited = false, this.isBookmarked = false});
 
   @override
-  _ButtonSectionState createState() => _ButtonSectionState(likesCount);
+  _ButtonSectionState createState() => _ButtonSectionState();
 }
 
 class _ButtonSectionState extends State<ButtonSection> {
-//  final bool isFavourite;
-  int _likesCount;
-  bool _isFavorited = false;
-  bool _isBookmarked = false;
 
-  _ButtonSectionState(
-//    this.isFavourite,
-      this._likesCount);
+  _ButtonSectionState();
 
   @override // Add from this line ...
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
+    return  Column(
         children: [
           Row(
             children: [
@@ -30,20 +26,17 @@ class _ButtonSectionState extends State<ButtonSection> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildButton(
-                        (_isFavorited
-                            ? Icon(Icons.favorite, color: Colors.red)
-                            : Icon(Icons.favorite_border)),
-                        _toggleFavorite),
-                    _buildButton(Icon(Icons.mode_comment), _toggleComment),
-                    _buildButton(Icon(Icons.send), _toggleSendPost),
+                        (widget.isFavorited ? Icons.favorite : Icons.favorite_border),
+                        _toggleFavorite,
+                        color: (widget.isFavorited ? Colors.red : null)),
+                    _buildButton(Icons.mode_comment, _toggleComment),
+                    _buildButton(Icons.send, _toggleSendPost),
                   ],
                 ),
               ),
               _buildButton(
-                  (_isBookmarked
-                      ? Icon(Icons.bookmark)
-                      : Icon(Icons.bookmark_border)),
-                   _toggleAddBookmark)
+                  (widget.isBookmarked ? Icons.bookmark : Icons.bookmark_border),
+                  _toggleAddBookmark)
             ],
           ),
           Row(
@@ -51,7 +44,7 @@ class _ButtonSectionState extends State<ButtonSection> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
-                  _likesCount.toString() + ' likes',
+                  '${widget.likesCount} likes',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -60,19 +53,13 @@ class _ButtonSectionState extends State<ButtonSection> {
             ],
           ),
         ],
-      ),
     );
   }
 
   void _toggleFavorite() {
     setState(() {
-      if (_isFavorited) {
-        _likesCount -= 1;
-        _isFavorited = false;
-      } else {
-        _likesCount += 1;
-        _isFavorited = true;
-      }
+      widget.likesCount = widget.isFavorited ? widget.likesCount - 1 : widget.likesCount + 1;
+      widget.isFavorited = !widget.isFavorited;
     });
   }
 
@@ -80,20 +67,14 @@ class _ButtonSectionState extends State<ButtonSection> {
   void _toggleSendPost() {}
   void _toggleAddBookmark() {
     setState(() {
-      if (_isBookmarked) {
-        _isBookmarked = false;
-      } else {
-        _isBookmarked = true;
-      }
+      widget.isBookmarked = !widget.isBookmarked;
     });
   }
 }
 
-Widget _buildButton(Icon icon, Function onToggle) {
-  return Container(
-    child: IconButton(
-      icon: icon,
+Widget _buildButton(IconData iconData, Function onToggle, {Color color}) {
+  return  IconButton(
+      icon: Icon(iconData, color: color),
       onPressed: onToggle,
-    ),
-  );
+    );
 }
